@@ -7,11 +7,10 @@ from pickle import load
 import streamlit as st
 import docx
 import time
-#import clipboard
+import clipboard
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 
 #Trained models
-
 vectorizer_model = load(open("Vectorizer_model_BOW.sav", "rb"))
 classification_model = load(open("Classification_model.sav", "rb"))
 
@@ -23,7 +22,7 @@ class_dict = {0: "Bank Services application", 1: 'Bank loan application', 2: 'Ca
 
 #---------------Header---------------------------------------------------------------------------------
 
-st.title("Email Template Suggestion")
+st.title('''Email Template Suggestion''')
 st.image("header_image.jpg", width=500)
 
 #---------------Navigation Buttons---------------------------------------------------------------------------------
@@ -47,7 +46,7 @@ if rad == "Home":
             #Vectorization and class prediction
             array = vectorizer_model.transform(pd.Series(keywords))
             class_probability = classification_model.predict_proba(array)
-            
+           
             probability = "bad"
             for prob_val in class_probability[0]:
                 if prob_val > 0.30:
@@ -70,8 +69,8 @@ if rad == "Home":
                     st.markdown(para.text)
                     template = template + "\n" + para.text
                 st.markdown("# ------------------------------------------------", True)
-                clipboard.copy(template)
-                st.success("NOTE: Template is copied to clipboard")
+#                 clipboard.copy(template)
+#                 st.success("NOTE: Template is copied to clipboard")
        
     if keyword_button == False:
         st.write("Waiting for user to enter the Keywords...............!!!!")
@@ -81,16 +80,16 @@ if rad == "Application Description":
     st.header("Purpose")
     st.markdown("**Email Template Suggestion API is developed to suggest email template to the user based on the keywords provided by them.**", True)
     st.header("Adavantages")
-    st.markdown("""* Quick suggestion of template based on the keywords.""", True)
-    st.markdown("""* Easy to use.""",True)
-    st.markdown("""* User friendly with simple interface.""",True)
-    st.markdown("""* Time saving.""",True)
+    st.markdown("""> * Quick suggestion of template based on the keywords.""", True)
+    st.markdown("""> * Easy to use.""",True)
+    st.markdown("""> * User friendly with simple interface.""",True)
+    st.markdown("""> * Time saving.""",True)
     st.header("How to Use")
     st.markdown("""**This section describes API user interface.**""", True)
     st.markdown("""> 1. Go to home page.""", True)
     st.image("Home page.PNG", width=500)
-    st.markdown("""> 2. Enter the relevant keywords as per user requirement and click on search button.<br>
-    **Note:** *Some of the valid keywords are as follows: Leave request, Resignation, Job application, Request for credit card, Compliants of defective products, Request for passbook, Cancellation of internet services, Request for refund, College addmission application, Loan application, Sick leave etc.*  """, True)
+    st.markdown("""> 2. Enter the relavnt keywords as per user requirement and click on search button.<br>
+    **Note:** *Some of the valid keywords are as follows: Leave request, Resignation, Job application, Request for credit card, Complaints of defective products, Request for passbook, Cancellation of internet services, Request for refund, College admission application, Loan application, Sick leave etc.*  """, True)
     st.image("keyword and search button.PNG", width=500)
-    st.markdown("""> 3. The nearest template based on the keywords will be diplayed on the screen and will be copied to clipboard.""", True)
+    st.markdown("""> 3. The nearest template based on the keywords will be diplayed on the screen.""", True)
     st.image("template display.PNG", width=500)
